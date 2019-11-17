@@ -15,6 +15,11 @@ const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
 
+const rollup = require('gulp-better-rollup');
+const babel = require('rollup-plugin-babel');
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
+
 // Load package.json for banner
 const pkg = require('./package.json');
 
@@ -118,6 +123,7 @@ function js() {
     .pipe(header(banner, {
       pkg: pkg
     }))
+    .pipe(rollup({ plugins: [babel(), resolve(), commonjs()] }, 'umd'))
     .pipe(gulp.dest(distPath + '/js'))
     .pipe(browsersync.stream());
 }
@@ -129,6 +135,16 @@ function html() {
       './src/**/*.html',
     ])
     .pipe(gulp.dest(distPath))
+    .pipe(browsersync.stream());
+}
+
+// ML task
+function model() {
+  return gulp
+    .src([
+      './src/web_model/*',
+    ])
+    .pipe(gulp.dest(distPath + 'web_model/'))
     .pipe(browsersync.stream());
 }
 
@@ -151,7 +167,7 @@ function watchFiles() {
 
 // Define complex tasks
 const vendor = gulp.series(clean, modules);
-const build = gulp.series(vendor, gulp.parallel(css, js, html, assets));
+const build = gulp.series(vendor, gulp.parallel(css, js, html, assets, model));
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
 // Export tasks
