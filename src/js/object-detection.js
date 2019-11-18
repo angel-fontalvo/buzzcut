@@ -18,7 +18,7 @@ window.onload = () => {
     //     modelPromise = model;
     // });
 
-    modelPromise = tf.loadGraphModel('http://localhost:3000/web_model/model.json')
+    modelPromise = tf.loadGraphModel('web_model/model.json')
 };
 
 
