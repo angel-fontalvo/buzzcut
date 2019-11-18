@@ -1,0 +1,50 @@
+extends layout
+
+block content
+
+    .container-fluid
+
+        // Content Row
+        .row
+
+            // Content Column
+            .col-xl-10.col-lg-8
+
+                // Illustrations
+                .card.shadow.mb-4
+                    .card-header.py-3
+                        h6.m-0.font-weight-bold.text-primary Image Upload
+                    .card-body
+                        .text-left
+                            input#imgObj.img-fluid.px-2.px-sm-3.mb-2(type='file' name='imgObj')
+                        .row
+                            .col-xl-3.col-lg-4
+                                .card.border-0.mt-2
+                                    // Card Body
+                                    #preds.card-body.d-none
+                                        // Cat
+                                        h4.small.font-weight-bold
+                                            | Cat 
+                                            span#cat-pred.float-right
+                                        .progress.mb-4
+                                            #cat-progress.progress-bar.bg-danger(role='progressbar' aria-valuemin='0' aria-valuemax='100')
+                                        
+                                        // Dog
+                                        h4.small.font-weight-bold
+                                            | Dog 
+                                            span#dog-pred.float-right
+                                        .progress.mb-4
+                                            #dog-progress.progress-bar.bg-warning(role='progressbar' aria-valuemin='0' aria-valuemax='100')
+                            .col-xl-9.col-lg-8
+                                #canvas-body.mt-2
+                                    canvas#canvas.img-fluid.px-2.px-sm-3.mb-2
+            
+            // Content Column
+            .col-xl-2.col-lg-4
+
+                .card.shadow.mb-4
+                    // Card Header - Dropdown
+                    .card-header.py-3.d-flex.flex-row.align-items-center.justify-content-between
+                        h6.m-0.font-weight-bold.text-primary Ad Placeholder
+                        // Card Body
+                        .card-body

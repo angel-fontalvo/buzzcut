@@ -21,6 +21,7 @@
   "scripts": {
     "devstart": "npm-run-all --parallel watch:build",
     "watch:build": "node_modules/.bin/gulp watch",
+    "watch:server": "nodemon ./src/bin/www",
     "build": "node_modules/.bin/gulp",
     "start": "node src/bin/www"
   },
@@ -30,6 +31,7 @@
     "bootstrap": "4.3.1",
     "chart.js": "2.8.0",
     "compression": "1.7.4",
+    "cookie-parser": "1.4.4",
     "datatables.net-bs4": "1.10.19",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -60,6 +62,7 @@
     "gulp-uglify": "3.0.2",
     "merge-stream": "2.0.0",
     "nodemon": "1.19.2",
+    "pug": "2.0.4",
     "rollup": "1.26.0",
     "rollup-plugin-babel": "4.3.3",
     "rollup-plugin-commonjs": "10.1.0",
