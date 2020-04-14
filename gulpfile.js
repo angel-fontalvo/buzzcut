@@ -41,12 +41,21 @@ const banner = ['/*!\n',
 function browserSync(done) {
   browsersync.init({
     server: {
-      baseDir: "./dist"
+      baseDir: "./dist",
     },
     port: 3000
   });
   done();
 }
+// function browserSync(done) {
+//   browsersync.init({
+//     server: {
+//       baseDir: "./dist",
+//     },
+//     port: 3000
+//   });
+//   done();
+// }
 
 // BrowserSync reload
 function browserSyncReload(done) {
@@ -72,10 +81,10 @@ function modules() {
     .pipe(gulp.dest(vendorPath + 'chart.js'));
   // dataTables
   var dataTables = gulp.src([
-      './node_modules/datatables.net/js/*.js',
-      './node_modules/datatables.net-bs4/js/*.js',
-      './node_modules/datatables.net-bs4/css/*.css'
-    ])
+    './node_modules/datatables.net/js/*.js',
+    './node_modules/datatables.net-bs4/js/*.js',
+    './node_modules/datatables.net-bs4/css/*.css'
+  ])
     .pipe(gulp.dest(vendorPath + 'datatables'));
   // Font Awesome
   var fontAwesome = gulp.src('./node_modules/@fortawesome/**/*')
@@ -85,9 +94,9 @@ function modules() {
     .pipe(gulp.dest(vendorPath + 'jquery-easing'));
   // jQuery
   var jquery = gulp.src([
-      './node_modules/jquery/dist/*',
-      '!./node_modules/jquery/dist/core.js'
-    ])
+    './node_modules/jquery/dist/*',
+    '!./node_modules/jquery/dist/core.js'
+  ])
     .pipe(gulp.dest(vendorPath + 'jquery'));
   return merge(bootstrapJS, bootstrapSCSS, chartJS, dataTables, fontAwesome, jquery, jqueryEasing);
 }
@@ -139,10 +148,19 @@ function html() {
 }
 
 // ML task
+// function model() {
+//   return gulp
+//     .src([
+//       './src/web_model/**/*',
+//     ], { base: './src/' })
+//     .pipe(gulp.dest(distPath + 'web_model/'))
+//     .pipe(browsersync.stream());
+// }
 function model() {
   return gulp
     .src([
-      './src/web_model/*',
+      './src/web_model/**/*.bin',
+      './src/web_model/**/*.json',
     ])
     .pipe(gulp.dest(distPath + 'web_model/'))
     .pipe(browsersync.stream());
@@ -162,7 +180,8 @@ function assets() {
 function watchFiles() {
   gulp.watch("src/scss/**/*", css);
   gulp.watch(["src/js/**/*", "!./js/**/*.min.js"], js);
-  gulp.watch("src/**/*.html", browserSyncReload);
+  gulp.watch("src/**/*.pug", browserSyncReload);
+  // gulp.watch("src/**/*.html", browserSyncReload);
 }
 
 // Define complex tasks

@@ -1,13 +1,14 @@
 import "regenerator-runtime/runtime";
 
 // import * as tfconv from '@tensorflow/tfjs-converter';
-// import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs';
 // import * as cocoSsd from '@tensorflow-models/coco-ssd';
 
-let modelPromise;
+let model;
 let image = new Image();
 let canvas = document.getElementById('canvas');
 let context = canvas.getContext('2d');
+let img_size = 100;
 
 window.onload = () => {
     // if (!localStorage.getItem('model')) {
@@ -18,7 +19,8 @@ window.onload = () => {
     //     modelPromise = model;
     // });
 
-    modelPromise = tf.loadGraphModel('web_model/model.json')
+    model = tf.loadGraphModel('web_model/vulnerable_model/model.json');
+    // modelPromise = tf.loadGraphModel('web_model/cat_dogs_model/model.json');
 };
 
 
@@ -44,19 +46,18 @@ runButton.onchange = function () {
         canvas.height = image.height;
         context.drawImage(image, 0, 0);
 
-        const model = await modelPromise;
+        model = await model;
 
         var preparedInput = tf.tidy(function () {
-            img = tf.browser.fromPixels(canvas);
-            img = tf.image.resizeBilinear(img, [100, 100]);
+            img = tf.browser.fromPixels(image);
+            img = tf.image.resizeBilinear(img, [img_size, img_size]);
             img = img.div(255.);
-            img = img.round(2);
             return img.expandDims(0);
         });
 
-        console.time('predict1');
+        // preparedInput.print();
+
         var result = await model.predict(preparedInput).data();
-        console.timeEnd('predict1');
 
         var catPredict = Math.floor(result[0] * 100);
         var dogPredict = Math.floor(result[1] * 100);
@@ -70,6 +71,7 @@ runButton.onchange = function () {
         $('#dog-pred').text(dogPredict+'%');
 
         preparedInput.dispose(catPredict);
+        preparedInput.dispose(dogPredict);
         tf.dispose(result);
 
 
