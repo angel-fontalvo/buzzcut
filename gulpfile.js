@@ -127,7 +127,7 @@ function css() {
 function js() {
   return gulp
     .src([
-      './src/js/*.js',
+      './src/js/**/*.js',
     ])
     .pipe(header(banner, {
       pkg: pkg
